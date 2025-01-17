@@ -1,0 +1,399 @@
+FINAL EXAM-BIT 2132-DATABASE TECHNOLOGY 2024-2025
+
+PART A
+
+mysql> create database dbms_exam;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use dbms_exam;
+Database changed
+mysql> create table Client_master(ClientNO int not null primary key auto_increment,Name varchar(100) not null,Address varchar(50) not null,City varchar(50)not null,State varchar(50)not null,bal_due decimal(10,2) default 0);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc Client_master;
++----------+---------------+------+-----+---------+----------------+
+| Field    | Type          | Null | Key | Default | Extra          |
++----------+---------------+------+-----+---------+----------------+
+| ClientNO | int           | NO   | PRI | NULL    | auto_increment |
+| Name     | varchar(100)  | NO   |     | NULL    |                |
+| Address  | varchar(50)   | NO   |     | NULL    |                |
+| City     | varchar(50)   | NO   |     | NULL    |                |
+| State    | varchar(50)   | NO   |     | NULL    |                |
+| bal_due  | decimal(10,2) | YES  |     | 0.00    |                |
++----------+---------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+
+Question 1:
+mysql> insert into Client_master (Name,Address,City,State,bal_due) values ("Mukiza","Huye-Cyarwa","Huye","Rwanda",default),("Japhet ","Rubavu-Rubavu","Rubavu","Rwanda",10000),("Mugiaha","Kigali-rwanda","Kigali","Rwanda",default),("Muneza","Kigali-Kicukiro","Kigali","Rwanda",100000),("KEZA","Huye-Rwanda","Huye","Rwanda",default);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Client_master
+    -> ;
++----------+---------+-----------------+--------+--------+-----------+
+| ClientNO | Name    | Address         | City   | State  | bal_due   |
++----------+---------+-----------------+--------+--------+-----------+
+|        1 | Mukiza  | Huye-Cyarwa     | Huye   | Rwanda |      0.00 |
+|        2 | Japhet  | Rubavu-Rubavu   | Rubavu | Rwanda |  10000.00 |
+|        3 | Mugiaha | Kigali-rwanda   | Kigali | Rwanda |      0.00 |
+|        4 | Muneza  | Kigali-Kicukiro | Kigali | Rwanda | 100000.00 |
+|        5 | KEZA    | Huye-Rwanda     | Huye   | Rwanda |      0.00 |
++----------+---------+-----------------+--------+--------+-----------+
+5 rows in set (0.00 sec)
+
+Question 2:
+mysql> select * from Client_master where bal_due>5000;
++----------+---------+-----------------+--------+--------+-----------+
+| ClientNO | Name    | Address         | City   | State  | bal_due   |
++----------+---------+-----------------+--------+--------+-----------+
+|        2 | Japhet  | Rubavu-Rubavu   | Rubavu | Rwanda |  10000.00 |
+|        4 | Muneza  | Kigali-Kicukiro | Kigali | Rwanda | 100000.00 |
++----------+---------+-----------------+--------+--------+-----------+
+2 rows in set (0.00 sec
+
+Question 4:
+mysql> update Client_master set Name='Client 12' where ClientNO=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Client_master;
++----------+-----------+-----------------+--------+--------+-----------+
+| ClientNO | Name      | Address         | City   | State  | bal_due   |
++----------+-----------+-----------------+--------+--------+-----------+
+|        1 | Mukiza    | Huye-Cyarwa     | Huye   | Rwanda |      0.00 |
+|        2 | Client 12 | Rubavu-Rubavu   | Rubavu | Rwanda |  10000.00 |
+|        3 | Mugiaha   | Kigali-rwanda   | Kigali | Rwanda |      0.00 |
+|        4 | Muneza    | Kigali-Kicukiro | Kigali | Rwanda | 100000.00 |
+|        5 | KEZA      | Huye-Rwanda     | Huye   | Rwanda |      0.00 |
++----------+-----------+-----------------+--------+--------+-----------+
+5 rows in set (0.00 sec)
+
+Question 5:mysql> select ClientNO, ClientNO, Address, City, State, bal_due as BALANCE from Client_master;
++----------+----------+-----------------+--------+--------+-----------+
+| ClientNO | ClientNO | Address         | City   | State  | BALANCE   |
++----------+----------+-----------------+--------+--------+-----------+
+|        1 |        1 | Huye-Cyarwa     | Huye   | Rwanda |      0.00 |
+|        2 |        2 | Rubavu-Rubavu   | Rubavu | Rwanda |  10000.00 |
+|        3 |        3 | Kigali-rwanda   | Kigali | Rwanda |      0.00 |
+|        4 |        4 | Kigali-Kicukiro | Kigali | Rwanda | 100000.00 |
+|        5 |        5 | Huye-Rwanda     | Huye   | Rwanda |      0.00 |
++----------+----------+-----------------+--------+--------+-----------+
+5 rows in set (0.00 sec)
+
+
+PART - B
+
+Question 6:
+mysql> create table DEPARTMENTS (departmentId int not null primary key auto_increment,departmentName varchar(50) not null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table EMPLOYEES (employeeId int not null primary key auto_increment,employeeName varchar(100) not null,departmentId int not null);
+Query OK, 0 rows affected (0.01 sec)
+
+a)
+ insert into DEPARTMENTS (departmentName) values ("ICT"),("ACC"),("HRM"),("Operation"),("Production");
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from DEPARTMENTS;
++--------------+----------------+
+| departmentId | departmentName |
++--------------+----------------+
+|            1 | ICT            |
+|            2 | ACC            |
+|            3 | HRM            |
+|            4 | Operation      |
+|            5 | Production     |
++--------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table EMPLOYEES add foreign key(departmentId) references DEPARTMENTS(departmentId);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into EMPLOYEES (employeeName,departmentId) values ("Aline",1),("Mutoni",2),("ISHIMWE",1),("Kevina",4),("Munezero",5);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from EMPLOYEES;
++------------+--------------+--------------+
+| employeeId | employeeName | departmentId |
++------------+--------------+--------------+
+|          1 | Aline        |            1 |
+|          2 | Mutoni       |            2 |
+|          3 | ISHIMWE      |            1 |
+|          4 | Kevina       |            4 |
+|          5 | Munezero     |            5 |
++------------+--------------+--------------+
+5 rows in set (0.00 sec)
+b)
+mysql> desc EMPLOYEES;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| employeeId   | int          | NO   | PRI | NULL    | auto_increment |
+| employeeName | varchar(100) | NO   |     | NULL    |                |
+| departmentId | int          | NO   | MUL | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+c)
+mysql> select EMPLOYEES.employeeName,DEPARTMENTS.departmentName from EMPLOYEES left join DEPARTMENTS  on EMPLOYEES.departmentId=DEPARTMENTS.departmentId ;
++--------------+----------------+
+| employeeName | departmentName |
++--------------+----------------+
+| Aline        | ICT            |
+| Mutoni       | ACC            |
+| ISHIMWE      | ICT            |
+| Kevina       | Operation      |
+| Munezero     | Production     |
++--------------+----------------+
+5 rows in set (0.01 sec)
+
+d)
+mysql>  select EMPLOYEES.employeeName,DEPARTMENTS.departmentName from EMPLOYEES right join DEPARTMENTS  on EMPLOYEES.departmentId=DEPARTMENTS.departmentId ;
++--------------+----------------+
+| employeeName | departmentName |
++--------------+----------------+
+| ISHIMWE      | ICT            |
+| Aline        | ICT            |
+| Mutoni       | ACC            |
+| NULL         | HRM            |
+| Kevina       | Operation      |
+| Munezero     | Production     |
++--------------+----------------+
+6 rows in set (0.00 sec)
+
+e)
+mysql> select * from EMPLOYEES where salary > (select AVG(salary) from EMPLOYEES);
+ERROR 1054 (42S22): Unknown column 'salary' in 'where clause'
+mysql> alter table EMPLOYEES add salary decimal(10,2) not null default 0;
+Query OK, 5 rows affected (0.05 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from EMPLOYEES where salary > (select AVG(salary) from EMPLOYEES);
+Empty set (0.00 sec)
+
+
+Question 7:
+mysql> create table STUDENT (studentId varchar(5) not null primary key, fullnames varchar(25),gender varchar(6) not null, age int(2),department varchar(30) not null);
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> create VIEW List_of_students as select * from STUDENT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create VIEW List_of_girls as select * from STUDENT where gender='girl';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create VIEW List_of_boys as select * from STUDENT where gender='boy';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc STUDENT;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| studentId  | varchar(5)  | NO   | PRI | NULL    |       |
+| fullnames  | varchar(25) | YES  |     | NULL    |       |
+| gender     | varchar(6)  | NO   |     | NULL    |       |
+| age        | int         | YES  |     | NULL    |       |
+| department | varchar(30) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql>  insert into STUDENT (studentId, fullnames, gender, age, department) values ("UN122","Keza","girl",19,"Business"), ("UN112","Mucyo","boy",20,"ACC"), ("UN113","Claudine","girl",19,"Languages"),  ("UN132","Muhirwa","girl",19,"BIT"), ("UN215","Ozali","girl",22,"Marketing");
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from List_of_students;
++-----------+-----------+--------+------+------------+
+| studentId | fullnames | gender | age  | department |
++-----------+-----------+--------+------+------------+
+| UN122     | Keza      | girl   |   19 | Business   |
+| UN112     | Mucyo     | boy    |   20 | ACC        |
+| UN113     | Claudine  | girl   |   19 | Languages  |
+| UN132     | Muhirwa   | girl   |   19 | BIT        |
+| UN215     | Ozali     | girl   |   22 | Marketing  |
++-----------+-----------+--------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from List_of_girls;
++-----------+-----------+--------+------+------------+
+| studentId | fullnames | gender | age  | department |
++-----------+-----------+--------+------+------------+
+| UN122     | Keza      | girl   |   19 | Business   |
+| UN113     | Claudine  | girl   |   19 | Languages  |
+| UN132     | Muhirwa   | girl   |   19 | BIT        |
+| UN215     | Ozali     | girl   |   22 | Marketing  |
++-----------+-----------+--------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from List_of_boys;
++-----------+-----------+--------+------+------------+
+| studentId | fullnames | gender | age  | department |
++-----------+-----------+--------+------+------------+
+| UN112     | Mucyo     | boy    |   20 | ACC        |
++-----------+-----------+--------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> delete from STUDENT where age<20;
+Query OK, 3 rows affected (0.00 sec)
+
+mysql> select * from List_of_students;
++-----------+-----------+--------+------+------------+
+| studentId | fullnames | gender | age  | department |
++-----------+-----------+--------+------+------------+
+| UN112     | Mucyo     | boy    |   20 | ACC        |
+| UN215     | Ozali     | girl   |   22 | Marketing  |
++-----------+-----------+--------+------+------------+
+2 rows in set (0.00 sec)
+
+PART C:
+
+Question 9:
+mysql> create table EMPLOYEES_ (employee_Id int not null primary key auto_increment,First_Name varchar(50) not null,Last_Name varchar(50) not null,Email varchar(100) not null, Phone_Number varchar(10) not null,Hire_Date date not null, Job_Id int, Salary decimal(10,2) default 0, Commission_Pct decimal(10,2), Manager_Id int, Department_Id int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc EMPLOYEES_ ;
++----------------+---------------+------+-----+---------+----------------+
+| Field          | Type          | Null | Key | Default | Extra          |
++----------------+---------------+------+-----+---------+----------------+
+| employee_Id    | int           | NO   | PRI | NULL    | auto_increment |
+| First_Name     | varchar(50)   | NO   |     | NULL    |                |
+| Last_Name      | varchar(50)   | NO   |     | NULL    |                |
+| Email          | varchar(100)  | NO   |     | NULL    |                |
+| Phone_Number   | varchar(10)   | NO   |     | NULL    |                |
+| Hire_Date      | date          | NO   |     | NULL    |                |
+| Job_Id         | int           | YES  |     | NULL    |                |
+| Salary         | decimal(10,2) | YES  |     | 0.00    |                |
+| Commission_Pct | decimal(10,2) | YES  |     | NULL    |                |
+| Manager_Id     | int           | YES  |     | NULL    |                |
+| Department_Id  | int           | YES  |     | NULL    |                |
++----------------+---------------+------+-----+---------+----------------+
+11 rows in set (0.00 sec)
+
+mysql> insert into EMPLOYEES_ (First_Name,Last_Name, Email,Phone_Number, Hire_Date, Job_Id, Salary, Commission_Pct, Manager_Id, Department_Id) values("Manzi","Kevin","manzi@gmail.com","078965456","2024-12-07",1,120000,12000,1,1), ("Muhire","Tito","muhire@gmail.com","078765456","2024-12-11",2,150000,15000,1,2), ("Mucyo","Bernard","mucyo@gmail.com","078965456","2024-12-07",1,200000,2000,2,3),("Mukizai","Aline","mukiza@gmail.com","072965456","2024-12-10",1,300000,15000,1,1);
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+a)
+mysql> select employee_Id,First_Name,Last_Name,Salary from EMPLOYEES_;
++-------------+------------+-----------+-----------+
+| employee_Id | First_Name | Last_Name | Salary    |
++-------------+------------+-----------+-----------+
+|           1 | Manzi      | Kevin     | 120000.00 |
+|           2 | Muhire     | Tito      | 150000.00 |
+|           3 | Mucyo      | Bernard   | 200000.00 |
+|           4 | Mukizai    | Aline     | 300000.00 |
++-------------+------------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+b) 
+mysql> select *  from EMPLOYEES_ where Manager_Id = 100;
+Empty set (0.00 sec)
+
+c)
+mysql> select First_Name,Last_Name from EMPLOYEES_ where Salary>4800 or Salary = 4800;
++------------+-----------+
+| First_Name | Last_Name |
++------------+-----------+
+| Manzi      | Kevin     |
+| Muhire     | Tito      |
+| Mucyo      | Bernard   |
+| Mukizai    | Aline     |
++------------+-----------+
+4 rows in set (0.00 sec)
+
+d)
+mysql> select * from EMPLOYEES_ where Last_Name;
+Empty set, 4 warnings (0.00 sec)
+
+e)
+mysql> select * from EMPLOYEES_ where Department_Id in (70,60,80);
+Empty set (0.00 sec)
+
+Question 10:
+
+mysql> CREATE TABLE Sales (
+    ->     Sales_No INT PRIMARY KEY,
+    ->     Salesname VARCHAR(50),
+    ->     Branch VARCHAR(50),
+    ->     Salesamount DECIMAL(10,2),
+    ->     DOB DATE
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+a)
+mysql> INSERT INTO Sales VALUES
+    -> (1, 'John', 'Nairobi', 15000.00, '1990-12-21'),
+    -> (2, 'Mary', 'Mombasa', 12500.00, '1985-04-15'),
+    -> (3, 'Peter', 'Nairobi', 18000.00, '1992-12-05'),
+    -> (4, 'Sarah', 'Kisumu', 13500.00, '1988-07-30'),
+    -> (5, 'James', 'Mombasa', 16500.00, '1995-12-10');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Sales;
++----------+-----------------+---------+-------------+------------+
+| Sales_No | Salesname       | Branch  | Salesamount | DOB        |
++----------+-----------------+---------+-------------+------------+
+|        1 | John            | Nairobi |    15000.00 | 1990-12-21 |
+|        2 | Mary            | Mombasa |    12500.00 | 1985-04-15 |
+|        3 | Peter           | Nairobi |    18000.00 | 1992-12-05 |
+|        4 | Sarah           | Kisumu  |    13500.00 | 1988-07-30 |
+|        5 | James           | Mombasa |    16500.00 | 1995-12-10 |
++----------+-----------------+---------+-------------+------------+
+5 rows in set (0.00 sec)
+
+b)
+mysql> SELECT Branch, SUM(Salesamount) as Total_Sales
+    -> FROM Sales
+    -> GROUP BY Branch;
++---------+-------------+
+| Branch  | Total_Sales |
++---------+-------------+
+| Nairobi |    33000.00 |
+| Mombasa |    29000.00 |
+| Kisumu  |    13500.00 |
++---------+-------------+
+3 rows in set (0.01 sec)
+
+c)
+mysql> SELECT Branch, AVG(Salesamount) as Average_Sales
+    -> FROM Sales
+    -> GROUP BY Branch;
++---------+---------------+
+| Branch  | Average_Sales |
++---------+---------------+
+| Nairobi |  16500.000000 |
+| Mombasa |  14500.000000 |
+| Kisumu  |  13500.000000 |
++---------+---------------+
+3 rows in set (0.00 sec)
+
+d)
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%d-%b-%y') as DOB
+    -> FROM Sales
+    -> WHERE MONTH(DOB) = 12;
++-----------------+-----------+
+| Salesname       | DOB       |
++-----------------+-----------+
+| John            | 21-Dec-90 |
+| Peter           | 05-Dec-92 |
+| James           | 10-Dec-95 |
++-----------------+-----------+
+3 rows in set (0.01 sec)
+
+e)
+mysql> SELECT Salesname, DATE_FORMAT(DOB, '%d-%b-%y') as DOB
+    -> FROM Sales
+    -> ORDER BY MONTH(DOB), Salesname;
++-----------------+-----------+
+| Salesname       | DOB       |
++-----------------+-----------+
+| Mary            | 15-Apr-85 |
+| Sarah           | 30-Jul-88 |
+| James           | 10-Dec-95 |
+| John            | 21-Dec-90 |
+| Peter           | 05-Dec-92 |
++-----------------+-----------+
+5 rows in set (0.00 sec)
